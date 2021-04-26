@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/card.css')}}">
+{% for order in list_orders%}
+	{% for id in order%}
+	<div class="col-md-12">
+		<p class="cart_price"><span class=""> Заказ пользователя {{ order[id][0][3] }} с id заказа {{id}}. Сумма заказа - {{ order[id][0][4]}}</span></p>
+	<div class="row">
+	{% for good in order[id]%}
+	<div class="col-md-4">
+		<div class="product-img">
+            <img src="data:image;base64,{{good[2]}}" height="420" width="327">
+        </div>
+        <div class="product-info">
+          <div class="product-text">
+              <h1>{{good[0].name}}</h1>
+              <h2>by {{good[0].by_who}}</h2>
+              <p class='about_text'>{{good[0].about}}</p>
+          </div>
+          <div class="product-price-btn">
+            <p class='product-price-btn_text'><span>{{good[0].price}}</span>руб.</p>
+            <p class='count'><span>Количество: {{ good[1]}}</span></p>
+          </div>
+      	 </div>
+	</div>
+	{% endfor %}
+	{% endfor %}
+	</div>
+	</div>
+	<p></p>
+{% endfor %}
+
+{% endblock %}

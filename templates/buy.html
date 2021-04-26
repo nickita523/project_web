@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/card.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+<div class="col-md-12 products">
+ <div class="row">
+  {% if current_user.role == 2%}
+  {%for i in all_goods%}
+  <div class="col-sm-4">
+    <div class="wrapper">
+        <div class="product-img">
+            <img src="data:image;base64,{{images[all_goods.index(i)]}}" height="420" width="327">
+        </div>
+        <div class="product-info">
+          <a href="magazin/{{i.name}}/del" class="delete" ></a>
+          <div class="product-text">
+              <h1>{{i.name}}</h1>
+              <h2>by {{i.by_who}}</h2>
+              <p class='about_text'>{{i.about}}</p>
+          </div>
+          <div class="product-price-btn">
+            <p><span>{{i.price}}</span>руб.</p>
+            <button onclick="location.href='#buy'" type="button">Купить</button>
+          </div>
+        </div>
+    </div>
+  </div>
+  {% endfor %}
+  {% else %}
+   {%for i in all_goods%}
+  <div class="col-sm-4">
+    <div class="wrapper">
+        <div class="product-img">
+            <img src="data:image;base64,{{images[all_goods.index(i)]}}" height="420" width="327">
+        </div>
+        <div class="product-info">
+          <div class="product-text">
+              <h1>{{i.name}}</h1>
+              <h2>by {{i.by_who}}</h2>
+              <p class='about_text'>{{i.about}}</p>
+          </div>
+          <div class="product-price-btn">
+            <p><span>{{i.price}}</span>руб.</p>
+            <button  onclick="location.href='#buy'" type="button">Купить</button>
+          </div>
+        </div>
+    </div>
+  </div>
+  {% endfor %}
+  {% endif %} 
+  </div>
+</div>
+
+<div id="buy" >
+      <div id="buy_window">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <p> {{good.name}} </p>
+            <p> Товара на складе {{good.count}} </p>
+            <p>
+                {{ form.count.label }}<br>
+                {{ form.count(class="form-control") }}<br>
+                {% for error in form.count.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+            </p>
+            <button  class="btn btn-primary">Добавить в корзину</button>
+            <a href="/magazin" class="close_window">Закрыть</a><br>
+            {{ message }}
+        </form>
+      </div>
+</div>
+{% endblock %}

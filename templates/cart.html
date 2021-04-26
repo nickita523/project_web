@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/card.css')}}">
+<div class="col-md-12">
+	<div class="col-md4">
+		<div class="product-price-btn">
+		<p class="cart_price"><span class=""> Стоимость: {{ sum }}</span></p>
+		<span class=""> {{message}} </span>
+	 </div>
+		<a href="/magazin/cart/make" class="cart_button">Сделать заказ</a>
+	 </div>
+<div class="row">
+	{% for i in cart_goods%}
+	<div class="col-md-4">
+		<div class="product-img">
+            <img src="data:image;base64,{{images[cart_goods.index(i)]}}" height="420" width="327">
+        </div>
+        <div class="product-info">
+          <div class="product-text">
+              <h1>{{i.name}}</h1>
+              <h2>by {{i.by_who}}</h2>
+              <p class='about_text'>{{i.about}}</p>
+          </div>
+          <div class="product-price-btn">
+            <p class='product-price-btn_text'><span>{{i.price}}</span>руб.</p>
+            <a href="/magazin/{{i.name}}/cart/del" class="delete" ></a>
+            <p class='count'><span>Количество: {{ count[cart_goods.index(i)]}}</span></p>
+          </div>
+      	 </div>
+	</div>
+{% endfor %}
+</div>
+</div>
+
+
+{% endblock %}

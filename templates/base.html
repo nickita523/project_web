@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="rus">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+    <title>{{ title }}</title>
+</head>
+<body>
+
+<header class="dark">
+    <h class="logo">Название магазина</h>
+    <nav id='menu'>
+    <ul class="nav">
+        <li><a href="/magazin">Каталог<i class="fa fa-angle-down"></i></a>
+            <ul class="submenu">
+                    <li><a href="/magazin/category/1">Электроника</a></li>
+                    <li><a href="/magazin/category/2">Одежда</a></li>
+                    <li><a href="/magazin/category/3">Мебель</a></li>
+                </ul>
+        </li>
+        {% if current_user.is_authenticated%}
+            <li><a href="#">{{current_user.name}}<i class="fa fa-angle-down"></i></a>
+            {% if current_user.role == 1 %}
+                <ul class="submenu">
+                    <li><a href="/magazin/cart" class="">Корзина</a></li>
+                    <li><a href="/logout">Выйти</a></li>
+                </ul>
+            </li>
+            {% else %}
+                <ul class="submenu">
+                    <li><a href="/orders">Заказы</a></li>
+                    <li><a href="#dark_background">Изменить роль пользователя</a></li>
+                    <li><a href="/add">Добавить товар</a></li>
+                    <li><a href="/logout">Выйти</a></li>
+                </ul>
+                </li>
+                <li><a href="/magazin/cart" class="">Корзина</a></li>
+            {% endif%} 
+        {% else %}
+            <li>
+                <a href="/login">Войти</a>
+                <li><a href="/register" class="">Регестрация</a></li>
+            </li>
+        {% endif %}
+    </ul>
+    </nav>
+</header>
+<main>
+    {% block content %}{% endblock %}
+</main>
+<div id="dark_background">
+        <div id="extra_window">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {{ form_role.hidden_tag() }}
+            <p>
+                {{ form_role.name.label }}<br>
+                {{ form_role.name(class="form-control", type="email") }}<br>
+                {% for error in form_role.name.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form_role.category.label }}<br>
+                {{ form_role.category(class="form-control") }}<br>
+                {% for error in form_role.category.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+            </p>
+            <button type="submit" class="btn btn-primary">Дать роль</button>
+            <a href="#" class="close_window">Закрыть</a><br>
+            {{ message_role }}
+        </form>
+        </div>
+</div>
+</body>
+</html>

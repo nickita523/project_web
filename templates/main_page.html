@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/card.css')}}">
+<div class="col-md-12 products">
+ <div class="row">
+  {% if current_user.role == 2%}
+  {%for i in all_goods%}
+  <div class="col-sm-4">
+    <div class="wrapper">
+        <div class="product-img">
+            <img src="data:image;base64,{{images[all_goods.index(i)]}}" height="420" width="327">
+        </div>
+        <div class="product-info">
+          <div class="product-text">
+              <h1>{{i.name}}</h1>
+              <h2>by {{i.by_who}}</h2>
+              <p class='about_text'>{{i.about}}</p>
+          </div>
+          <div class="product-price-btn">
+            <p class='product-price-btn_text'><span>{{i.price}}</span>руб.</p>
+            <a href="/magazin/{{i.name}}/del" class="delete" ></a>
+          <button onclick="location.href='/magazin/{{i.name}}/buy#buy'" type="button">Купить</button>
+          </div>
+        </div>
+    </div>
+  </div>
+  {% endfor %}
+  {% else %}
+   {%for i in all_goods%}
+  <div class="col-sm-4">
+    <div class="wrapper">
+        <div class="product-img">
+            <img src="data:image;base64,{{images[all_goods.index(i)]}}" height="420" width="327">
+        </div>
+        <div class="product-info">
+          <div class="product-text">
+              <h1>{{i.name}}</h1>
+              <h2>by {{i.by_who}}</h2>
+              <p class='about_text'>{{i.about}}</p>
+          </div>
+          <div class="product-price-btn">
+            <p class='product-price-btn_text'><span>{{i.price}}</span>руб.</p>
+            <button onclick="location.href='/magazin/{{i.name}}/buy#buy'" type="button">Купить</button>
+          </div>
+        </div>
+    </div>
+  </div>
+  {% endfor %}
+  {% endif %} 
+  </div>
+</div>
+
+{% endblock %}
